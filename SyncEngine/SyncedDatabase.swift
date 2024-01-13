@@ -10,7 +10,7 @@ import os.log
 final actor SyncedDatabase : Sendable, ObservableObject {
     
     /// The CloudKit container to sync with.
-    static let container: CKContainer = CKContainer(identifier: "iCloud.com.apple.samples.cloudkit.SyncEngine")
+    static let container: CKContainer = CKContainer(identifier: "iCloud.xyz.fabriziostocco.SyncEngine")
 
     /// The sync engine being used to sync.
     /// This is lazily initialized. You can re-initialize the sync engine by setting `_syncEngine` to nil then calling `self.syncEngine`.
@@ -49,6 +49,7 @@ final actor SyncedDatabase : Sendable, ObservableObject {
     
     /// The default data URL used to store data in the app.
     static let defaultDataURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appending(component: "Contacts").appendingPathExtension("json")
+
     
     init(automaticallySync: Bool = true, dataURL: URL = defaultDataURL) {
         
@@ -373,7 +374,7 @@ extension SyncedDatabase {
     }
     
     func persistLocalData() throws {
-        Logger.database.debug("Saving to disk")
+        Logger.database.debug("Saving to disk: \(self.dataURL)")
         do {
             let data = try JSONEncoder().encode(self.appData)
             try data.write(to: self.dataURL)
